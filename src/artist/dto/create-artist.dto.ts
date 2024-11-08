@@ -1,1 +1,7 @@
-export class CreateArtistDto {}
+export class CreateArtistDto {
+  //  interface Artist {
+  // id: string; // uuid v4
+  name: string;
+  grammy: boolean;
+  //   }
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFavDto } from './dto/create-fav.dto';
 import { UpdateFavDto } from './dto/update-fav.dto';
+import { dataBase } from 'src/dataBase/dataBase';
 
 @Injectable()
 export class FavsService {
@@ -9,7 +10,15 @@ export class FavsService {
   }
 
   findAll() {
-    return `This action returns all favs`;
+    const result = dataBase.getFavoritesAll();
+    console.log('result', result);
+    // return result;
+    return {
+      albums: [],
+      artists: [],
+      tracks: [],
+    };
+    // return `This action returns all fajjjjjvs`;
   }
 
   findOne(id: number) {

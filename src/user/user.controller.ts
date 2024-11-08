@@ -6,10 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  ParseUUIDPipe,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UUID } from 'crypto';
 
 @Controller('user')
 export class UserController {
@@ -22,21 +28,36 @@ export class UserController {
 
   @Get()
   findAll() {
+    console.log('userfffs');
     return this.userService.findAll();
   }
-
+  // @Param('id', ParseUUIDPipe) id: string
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: UUID) {
+    const result = this.userService.findOne(id);
+    if (!result) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Put(':id')
+  update(
+    @Param('id', ParseUUIDPipe) id: UUID,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    const result = this.userService.update(id, updateUserDto);
+    if (!result) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return result;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id', ParseUUIDPipe) id: UUID) {
+    const result = this.userService.remove(id);
+    if (!result) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
   }
 }

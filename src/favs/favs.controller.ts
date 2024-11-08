@@ -22,6 +22,8 @@ export class FavsController {
 
   @Get()
   findAll() {
+    console.log('++++++++++++++++++++++++++++++++++++++++++++++');
+    const test = '+++++++++++++++++++++';
     return this.favsService.findAll();
   }
 

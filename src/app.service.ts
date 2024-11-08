@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { DataBase } from './dataBase/dataBase';
+//import { dataBase } from './dataBase/dataBase';
 
 @Injectable()
 export class AppService {
-  dataBase = new DataBase();
+  //dataBase = new DataBase();
   // constructor(){
 
   // }
