@@ -59,7 +59,16 @@ class DataBase {
   delArtistByID(id: string): Artist {
     const result = this.artists.find((item) => item.id === id);
     if (!result) return null;
+    const artistId = result.id;
     this.artists.splice(this.artists.indexOf(result));
+    this.tracks.forEach(
+      (item) =>
+        (item.artistId = item.artistId === artistId ? null : item.artistId),
+    );
+    this.albums.forEach(
+      (item) =>
+        (item.artistId = item.artistId === artistId ? null : item.artistId),
+    );
     return result;
   }
 
@@ -86,7 +95,11 @@ class DataBase {
   delAlbumByID(id: string): Album {
     const result = this.albums.find((item) => item.id === id);
     if (!result) return null;
+    const albumID = result.id;
     this.albums.splice(this.albums.indexOf(result));
+    this.tracks.forEach(
+      (item) => (item.albumId = item.albumId === albumID ? null : item.albumId),
+    );
     return result;
   }
 
