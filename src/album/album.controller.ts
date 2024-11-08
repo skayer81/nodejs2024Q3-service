@@ -58,7 +58,7 @@ export class AlbumController {
     const result = this.albumService.remove(id);
 
     if (!result) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`Album with id ${id} not found`);
     }
     return result;
   }

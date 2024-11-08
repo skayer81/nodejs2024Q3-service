@@ -1,11 +1,12 @@
 //import { Album } from 'src/album/entities/album.entity';
-import { Artist, Favorites, User, Album } from './types';
+import { Artist, Favorites, User, Album, Track } from './types';
 
 class DataBase {
   favorites: Favorites;
   artists: Artist[] = [];
   users: User[] = [];
   albums: Album[] = [];
+  tracks: Track[] = [];
 
   //   getFavoritesByID(id: string): Favorites | null {
   //     const result = this.favorites.find((item) => item.id === id);
@@ -95,6 +96,35 @@ class DataBase {
     album = data;
     //  {...user} = {...data}
     return this.getAlbumByID(id);
+  }
+
+  //////////////////////////////////////////
+
+  getTracksAll(): Track[] {
+    return this.tracks;
+  }
+
+  getTrackByID(id: string): Track {
+    const result = this.tracks.find((item) => item.id === id);
+    return result ?? null;
+  }
+  addTrack(track: Track): Track {
+    this.tracks.push(track);
+    return track;
+  }
+  delTrackByID(id: string): Track {
+    const result = this.tracks.find((item) => item.id === id);
+    if (!result) return null;
+    this.tracks.splice(this.tracks.indexOf(result));
+    return result;
+  }
+
+  updateTrackByID(id: string, data: Track): Track {
+    let track = this.tracks.find((item) => item.id === id);
+    if (!track) return null;
+    track = data;
+    //  {...user} = {...data}
+    return this.getTrackByID(id);
   }
 
   //   addUser(user: User) {
