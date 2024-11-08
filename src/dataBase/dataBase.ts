@@ -1,9 +1,11 @@
-import { Artist, Favorites, User } from './types';
+//import { Album } from 'src/album/entities/album.entity';
+import { Artist, Favorites, User, Album } from './types';
 
 class DataBase {
   favorites: Favorites;
   artists: Artist[] = [];
   users: User[] = [];
+  albums: Album[] = [];
 
   //   getFavoritesByID(id: string): Favorites | null {
   //     const result = this.favorites.find((item) => item.id === id);
@@ -66,6 +68,33 @@ class DataBase {
     artist = data;
     //  {...user} = {...data}
     return this.getArtistByID(id);
+  }
+  ///////////////////////////////////
+  getAlbumsAll(): Album[] {
+    return this.albums;
+  }
+
+  getAlbumByID(id: string): Album {
+    const result = this.albums.find((item) => item.id === id);
+    return result ?? null;
+  }
+  addAlbum(album: Album): Album {
+    this.albums.push(album);
+    return album;
+  }
+  delAlbumByID(id: string): Album {
+    const result = this.albums.find((item) => item.id === id);
+    if (!result) return null;
+    this.albums.splice(this.albums.indexOf(result));
+    return result;
+  }
+
+  updateAlbumByID(id: string, data: Album): Album {
+    let album = this.albums.find((item) => item.id === id);
+    if (!album) return null;
+    album = data;
+    //  {...user} = {...data}
+    return this.getAlbumByID(id);
   }
 
   //   addUser(user: User) {
