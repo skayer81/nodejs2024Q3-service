@@ -1,8 +1,17 @@
+import { UUID } from 'crypto';
+
 export interface Favorites {
   //id: string;
-  artists: Artist[]; // favorite artists ids
-  albums: Album[]; // favorite albums ids
-  tracks: Track[]; // favorite tracks ids
+  artists: Artist[]; // UUID[]; // favorite artists ids
+  albums: Album[]; //UUID[]; // favorite albums ids
+  tracks: Track[]; // UUID[]; // favorite tracks ids
+}
+
+export interface FavoritesSets {
+  //id: string;
+  artists: Set<UUID>; // UUID[]; // favorite artists ids
+  albums: Set<UUID>; //UUID[]; // favorite albums ids
+  tracks: Set<UUID>; // UUID[]; // favorite tracks ids
 }
 
 export interface Artist {

@@ -1,7 +1,13 @@
+import { IsOptional } from 'class-validator';
+import { UUID } from 'crypto';
+
 export class CreateFavDto {
   //  interface Favorites {
-  artists: string[]; // favorite artists ids
-  albums: string[]; // favorite albums ids
-  tracks: string[]; // favorite tracks ids
+  @IsOptional()
+  artists: UUID; // favorite artists ids
+  @IsOptional()
+  albums: UUID; // favorite albums ids
+  @IsOptional()
+  tracks: UUID; // favorite tracks ids
   //   }
 }
