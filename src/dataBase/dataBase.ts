@@ -32,20 +32,20 @@ class DataBase {
     return user;
   }
 
-  getUserByID(id: string): User {
+  getUserByID(id: UUID): User {
     const result = this.users.find((item) => item.id === id);
     //  delete result.password;
     return result ?? null;
   }
 
-  delUserByID(id: string): User {
+  delUserByID(id: UUID): User {
     const result = this.users.find((item) => item.id === id);
     if (!result) return null;
     this.users.splice(this.users.indexOf(result));
     return result;
   }
 
-  updateUserByID(id: string, data: User): User {
+  updateUserByID(id: UUID, data: User): User {
     let user = this.users.find((item) => item.id === id);
     if (!user) return null;
     user = data;
@@ -66,11 +66,12 @@ class DataBase {
     this.artists.push(artist);
     return artist;
   }
-  delArtistByID(id: string): Artist {
+  delArtistByID(id: UUID): Artist {
     const result = this.artists.find((item) => item.id === id);
     if (!result) return null;
     const artistId = result.id;
     this.artists.splice(this.artists.indexOf(result));
+    this.favorites.artists.delete(id);
     this.tracks.forEach(
       (item) =>
         (item.artistId = item.artistId === artistId ? null : item.artistId),
@@ -94,7 +95,7 @@ class DataBase {
     return this.albums;
   }
 
-  getAlbumByID(id: string): Album {
+  getAlbumByID(id: UUID): Album {
     const result = this.albums.find((item) => item.id === id);
     return result ?? null;
   }
@@ -102,18 +103,19 @@ class DataBase {
     this.albums.push(album);
     return album;
   }
-  delAlbumByID(id: string): Album {
+  delAlbumByID(id: UUID): Album {
     const result = this.albums.find((item) => item.id === id);
     if (!result) return null;
     const albumID = result.id;
     this.albums.splice(this.albums.indexOf(result));
+    this.favorites.albums.delete(id);
     this.tracks.forEach(
       (item) => (item.albumId = item.albumId === albumID ? null : item.albumId),
     );
     return result;
   }
 
-  updateAlbumByID(id: string, data: Album): Album {
+  updateAlbumByID(id: UUID, data: Album): Album {
     let album = this.albums.find((item) => item.id === id);
     if (!album) return null;
     album = data;
@@ -127,7 +129,7 @@ class DataBase {
     return this.tracks;
   }
 
-  getTrackByID(id: string): Track {
+  getTrackByID(id: UUID): Track {
     const result = this.tracks.find((item) => item.id === id);
     return result ?? null;
   }
@@ -135,14 +137,15 @@ class DataBase {
     this.tracks.push(track);
     return track;
   }
-  delTrackByID(id: string): Track {
+  delTrackByID(id: UUID): Track {
     const result = this.tracks.find((item) => item.id === id);
     if (!result) return null;
     this.tracks.splice(this.tracks.indexOf(result));
+    this.favorites.tracks.delete(id);
     return result;
   }
 
-  updateTrackByID(id: string, data: Track): Track {
+  updateTrackByID(id: UUID, data: Track): Track {
     let track = this.tracks.find((item) => item.id === id);
     if (!track) return null;
     track = data;
