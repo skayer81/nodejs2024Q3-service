@@ -1,0 +1,186 @@
+import { UUID } from 'crypto';
+import { Artist, Favorites, User, Album, Track, FavoritesSets } from './types';
+
+class DataBase {
+  favorites: FavoritesSets;
+
+  artists: Artist[] = [];
+  users: User[] = [];
+  albums: Album[] = [];
+  tracks: Track[] = [];
+
+  constructor() {
+    this.favorites = {
+      artists: new Set<UUID>(),
+      albums: new Set<UUID>(),
+      tracks: new Set<UUID>(),
+    };
+  }
+
+  getUserAll(): User[] {
+    return this.users;
+  }
+
+  addUser(user: User) {
+    this.users.push(user);
+    return user;
+  }
+
+  getUserByID(id: UUID): User {
+    const result = this.users.find((item) => item.id === id);
+    return result ?? null;
+  }
+
+  delUserByID(id: UUID): User {
+    const result = this.users.find((item) => item.id === id);
+    if (!result) return null;
+    this.users.splice(this.users.indexOf(result));
+    return result;
+  }
+
+  updateUserByID(id: UUID, data: User): User {
+    let user = this.users.find((item) => item.id === id);
+    if (!user) return null;
+    user = data;
+    return this.getUserByID(id);
+  }
+
+  getArtistsAll(): Artist[] {
+    return this.artists;
+  }
+
+  getArtistByID(id: UUID): Artist {
+    const result = this.artists.find((item) => item.id === id);
+    return result ?? null;
+  }
+  addArtist(artist: Artist): Artist {
+    this.artists.push(artist);
+    return artist;
+  }
+  delArtistByID(id: UUID): Artist {
+    const result = this.artists.find((item) => item.id === id);
+    if (!result) return null;
+    const artistId = result.id;
+    this.artists.splice(this.artists.indexOf(result));
+    this.favorites.artists.delete(id);
+    this.tracks.forEach(
+      (item) =>
+        (item.artistId = item.artistId === artistId ? null : item.artistId),
+    );
+    this.albums.forEach(
+      (item) =>
+        (item.artistId = item.artistId === artistId ? null : item.artistId),
+    );
+    return result;
+  }
+
+  updateArtistByID(id: UUID, data: Artist): Artist {
+    let artist = this.artists.find((item) => item.id === id);
+    if (!artist) return null;
+    artist = data;
+    return this.getArtistByID(id);
+  }
+  getAlbumsAll(): Album[] {
+    return this.albums;
+  }
+
+  getAlbumByID(id: UUID): Album {
+    const result = this.albums.find((item) => item.id === id);
+    return result ?? null;
+  }
+  addAlbum(album: Album): Album {
+    this.albums.push(album);
+    return album;
+  }
+  delAlbumByID(id: UUID): Album {
+    const result = this.albums.find((item) => item.id === id);
+    if (!result) return null;
+    const albumID = result.id;
+    this.albums.splice(this.albums.indexOf(result));
+    this.favorites.albums.delete(id);
+    this.tracks.forEach(
+      (item) => (item.albumId = item.albumId === albumID ? null : item.albumId),
+    );
+    return result;
+  }
+
+  updateAlbumByID(id: UUID, data: Album): Album {
+    let album = this.albums.find((item) => item.id === id);
+    if (!album) return null;
+    album = data;
+    return this.getAlbumByID(id);
+  }
+
+  getTracksAll(): Track[] {
+    return this.tracks;
+  }
+
+  getTrackByID(id: UUID): Track {
+    const result = this.tracks.find((item) => item.id === id);
+    return result ?? null;
+  }
+  addTrack(track: Track): Track {
+    this.tracks.push(track);
+    return track;
+  }
+  delTrackByID(id: UUID): Track {
+    const result = this.tracks.find((item) => item.id === id);
+    if (!result) return null;
+    this.tracks.splice(this.tracks.indexOf(result));
+    this.favorites.tracks.delete(id);
+    return result;
+  }
+
+  updateTrackByID(id: UUID, data: Track): Track {
+    let track = this.tracks.find((item) => item.id === id);
+    if (!track) return null;
+    track = data;
+    return this.getTrackByID(id);
+  }
+
+  getFavoritesAll(): Favorites {
+    const result = {
+      artists: Array.from(this.favorites.artists).map((id) =>
+        this.getArtistByID(id),
+      ),
+      albums: Array.from(this.favorites.albums).map((id) =>
+        this.getAlbumByID(id),
+      ),
+      tracks: Array.from(this.favorites.tracks).map((id) =>
+        this.getTrackByID(id),
+      ),
+    };
+    return result;
+  }
+
+  favoritesAddAlbum(id: UUID) {
+    if (!this.getAlbumByID(id)) return null;
+    this.favorites.albums.add(id);
+    return this.getAlbumByID(id);
+  }
+  favoritesAddTrack(id: UUID) {
+    if (!this.getTrackByID(id)) return null;
+    this.favorites.tracks.add(id);
+    return this.getTrackByID(id);
+  }
+  favoritesAddArtist(id: UUID) {
+    if (!this.getArtistByID(id)) return null;
+    this.favorites.artists.add(id);
+    return this.getArtistByID(id);
+  }
+
+  favoritesDelAlbum(id: UUID) {
+    this.favorites.albums.delete(id);
+    return this.getAlbumByID(id);
+  }
+  favoritesDelTrack(id: UUID) {
+    this.favorites.tracks.delete(id);
+    return this.getTrackByID(id);
+  }
+  favoritesDelArtist(id: UUID) {
+    this.favorites.artists.delete(id);
+    return this.getArtistByID(id);
+  }
+}
+
+export const dataBase = new DataBase();
