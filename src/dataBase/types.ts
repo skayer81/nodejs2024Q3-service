@@ -44,3 +44,9 @@ export interface User {
   createdAt: number; // timestamp of creation
   updatedAt: number; // timestamp of last update
 }
+
+export enum FavoritesTypes {
+  artist = 'artist',
+  album = 'album',
+  track = 'track',
+}
