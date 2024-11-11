@@ -1,4 +1,3 @@
-//
 import {
   Controller,
   Get,
@@ -8,6 +7,7 @@ import {
   Delete,
   ParseUUIDPipe,
   NotFoundException,
+  BadRequestException,
   Put,
   HttpCode,
   HttpStatus,
@@ -26,6 +26,7 @@ export class TrackController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Track created', type: Track })
+  @ApiResponse({ status: 400, description: 'Invalid request body' })
   create(@Body() createTrackDto: CreateTrackDto) {
     return this.trackService.create(createTrackDto);
   }
@@ -34,7 +35,7 @@ export class TrackController {
   @ApiResponse({
     status: 200,
     description: 'List of tracks',
-    type: [CreateTrackDto],
+    type: [Track],
   })
   findAll() {
     return this.trackService.findAll();
@@ -44,8 +45,9 @@ export class TrackController {
   @ApiResponse({
     status: 200,
     description: 'Track found',
-    type: CreateTrackDto,
+    type: Track,
   })
+  @ApiResponse({ status: 400, description: 'Invalid track ID format' })
   @ApiResponse({ status: 404, description: 'Track not found' })
   findOne(@Param('id', ParseUUIDPipe) id: UUID) {
     const result = this.trackService.findOne(id);
@@ -57,6 +59,7 @@ export class TrackController {
 
   @Put(':id')
   @ApiResponse({ status: 200, description: 'Track updated', type: Track })
+  @ApiResponse({ status: 400, description: 'Invalid track ID format' })
   @ApiResponse({ status: 404, description: 'Track not found' })
   update(
     @Param('id', ParseUUIDPipe) id: UUID,
@@ -72,6 +75,7 @@ export class TrackController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({ status: 204, description: 'Track deleted' })
+  @ApiResponse({ status: 400, description: 'Invalid track ID format' })
   @ApiResponse({ status: 404, description: 'Track not found' })
   remove(@Param('id', ParseUUIDPipe) id: UUID) {
     const result = this.trackService.remove(id);

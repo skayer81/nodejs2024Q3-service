@@ -17,12 +17,10 @@ export class AlbumService {
 
   findAll() {
     return dataBase.getAlbumsAll();
-    // return `This action returns all album`;
   }
 
   findOne(id: UUID) {
     return dataBase.getAlbumByID(id);
-    // return `This action returns a #${id} album`;
   }
 
   update(id: UUID, updateAlbumDto: UpdateAlbumDto) {
@@ -31,11 +29,8 @@ export class AlbumService {
     album.name = updateAlbumDto.name;
     album.year = updateAlbumDto.year;
     album.artistId = updateAlbumDto.artistId;
-    // album = { ...updateAlbumDto };
-    // const updatedAlbum = { ...album, ...updateAlbumDto };
     const outputAlbum = dataBase.updateAlbumByID(id, album);
     return outputAlbum;
-    //  return `This action updates a #${id} album`;
   }
 
   remove(id: UUID) {

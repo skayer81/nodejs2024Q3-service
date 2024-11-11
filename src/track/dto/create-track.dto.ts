@@ -2,8 +2,6 @@ import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTrackDto {
-  //   @IsUUID()
-  //   id: string; // uuid v4
   @ApiProperty({
     description: 'track name',
     example: 'cool song',
@@ -16,18 +14,18 @@ export class CreateTrackDto {
   })
   @IsOptional()
   @IsUUID()
-  artistId: string | null; // refers to Artist
+  artistId: string | null;
   @ApiProperty({
     description: 'album ID',
     example: 'e1e2c41d-8ad7-4cdd-bd1c-e8a85637c1a7',
   })
   @IsOptional()
   @IsUUID()
-  albumId: string | null; // refers to Album
+  albumId: string | null;
   @ApiProperty({
     description: 'track duration',
     example: 123,
   })
   @IsNumber()
-  duration: number; // integer number
+  duration: number;
 }

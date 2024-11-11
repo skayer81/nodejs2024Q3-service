@@ -1,48 +1,45 @@
 import { UUID } from 'crypto';
 
 export interface Favorites {
-  //id: string;
-  artists: Artist[]; // UUID[]; // favorite artists ids
-  albums: Album[]; //UUID[]; // favorite albums ids
-  tracks: Track[]; // UUID[]; // favorite tracks ids
+  artists: Artist[];
+  albums: Album[];
+  tracks: Track[];
 }
 
 export interface FavoritesSets {
-  //id: string;
-  artists: Set<UUID>; // UUID[]; // favorite artists ids
-  albums: Set<UUID>; //UUID[]; // favorite albums ids
-  tracks: Set<UUID>; // UUID[]; // favorite tracks ids
+  artists: Set<UUID>;
+  albums: Set<UUID>;
+  tracks: Set<UUID>;
 }
 
 export interface Artist {
-  id: string; // uuid v4
+  id: string;
   name: string;
   grammy: boolean;
 }
 
 export interface Track {
-  id: string; // uuid v4
+  id: string;
   name: string;
-  artistId: string | null; // refers to Artist
-  albumId: string | null; // refers to Album
-  duration: number; // integer number
+  artistId: string | null;
+  albumId: string | null;
+  duration: number;
 }
-// Album (with attributes):
 
 export interface Album {
-  id: string; // uuid v4
+  id: string;
   name: string;
   year: number;
-  artistId: string | null; // refers to Artist
+  artistId: string | null;
 }
 
 export interface User {
-  id: string; // uuid v4
+  id: string;
   login: string;
   password: string;
-  version: number; // integer number, increments on update
-  createdAt: number; // timestamp of creation
-  updatedAt: number; // timestamp of last update
+  version: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export enum FavoritesTypes {

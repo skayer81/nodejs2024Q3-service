@@ -25,6 +25,10 @@ export class UserController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'User  created', type: User })
+  @ApiResponse({
+    status: 400,
+    description: 'body does not contain required fields',
+  })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
@@ -54,7 +58,9 @@ export class UserController {
 
   @Put(':id')
   @ApiResponse({ status: 200, description: 'User  updated', type: User })
-  @ApiResponse({ status: 404, description: 'User  not found' })
+  @ApiResponse({ status: 400, description: 'userId is invalid (not uuid)' })
+  @ApiResponse({ status: 404, description: `User  not found` })
+  @ApiResponse({ status: 403, description: 'oldPassword is wrong' })
   update(
     @Param('id', ParseUUIDPipe) id: UUID,
     @Body() updateUserDto: UpdateUserDto,
@@ -69,6 +75,7 @@ export class UserController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({ status: 204, description: 'User  deleted' })
+  @ApiResponse({ status: 400, description: 'userId is invalid (not uuid)' })
   @ApiResponse({ status: 404, description: 'User  not found' })
   remove(@Param('id', ParseUUIDPipe) id: UUID) {
     const result = this.userService.remove(id);

@@ -1,14 +1,9 @@
-//import { Album } from 'src/album/entities/album.entity';
 import { UUID } from 'crypto';
 import { Artist, Favorites, User, Album, Track, FavoritesSets } from './types';
 
 class DataBase {
   favorites: FavoritesSets;
-  //   = {
-  //     artists: new Set<UUID>(),
-  //     albums: new Set<UUID>(),
-  //     tracks: new Set<UUID>(),
-  //   };
+
   artists: Artist[] = [];
   users: User[] = [];
   albums: Album[] = [];
@@ -28,13 +23,11 @@ class DataBase {
 
   addUser(user: User) {
     this.users.push(user);
-    //   delete user.password;
     return user;
   }
 
   getUserByID(id: UUID): User {
     const result = this.users.find((item) => item.id === id);
-    //  delete result.password;
     return result ?? null;
   }
 
@@ -49,11 +42,9 @@ class DataBase {
     let user = this.users.find((item) => item.id === id);
     if (!user) return null;
     user = data;
-    //  {...user} = {...data}
     return this.getUserByID(id);
   }
 
-  /////////////////
   getArtistsAll(): Artist[] {
     return this.artists;
   }
@@ -87,10 +78,8 @@ class DataBase {
     let artist = this.artists.find((item) => item.id === id);
     if (!artist) return null;
     artist = data;
-    //  {...user} = {...data}
     return this.getArtistByID(id);
   }
-  ///////////////////////////////////
   getAlbumsAll(): Album[] {
     return this.albums;
   }
@@ -119,11 +108,8 @@ class DataBase {
     let album = this.albums.find((item) => item.id === id);
     if (!album) return null;
     album = data;
-    //  {...user} = {...data}
     return this.getAlbumByID(id);
   }
-
-  //////////////////////////////////////////
 
   getTracksAll(): Track[] {
     return this.tracks;
@@ -149,7 +135,6 @@ class DataBase {
     let track = this.tracks.find((item) => item.id === id);
     if (!track) return null;
     track = data;
-    //  {...user} = {...data}
     return this.getTrackByID(id);
   }
 

@@ -1,7 +1,5 @@
 export class Artist {
-  //   interface Artist {
-  id: string; // uuid v4
+  id: string;
   name: string;
   grammy: boolean;
-  //    }
 }

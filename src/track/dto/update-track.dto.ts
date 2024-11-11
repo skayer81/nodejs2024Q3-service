@@ -7,10 +7,10 @@ export class UpdateTrackDto extends PartialType(CreateTrackDto) {
   name: string;
   @IsOptional()
   @IsUUID()
-  artistId: string | null; // refers to Artist
+  artistId: string | null;
   @IsOptional()
   @IsUUID()
-  albumId: string | null; // refers to Album
+  albumId: string | null;
   @IsNumber()
-  duration: number; // integer number
+  duration: number;
 }

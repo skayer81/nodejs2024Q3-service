@@ -25,24 +25,20 @@ export class UserService {
 
     delete createdUser.password;
     return createdUser;
-    //return 'This action adds a new user';
   }
 
   findAll() {
     return dataBase.getUserAll();
-    // return `This action returns all user`;
   }
 
   findOne(id: UUID) {
     return dataBase.getUserByID(id);
-    //    return `This action returns a #${id} user`;
   }
 
   update(id: UUID, updateUserDto: UpdateUserDto) {
     const user = dataBase.getUserByID(id);
     if (!user) throw new NotFoundException(`User with id ${id} not found`);
     if (user.password !== updateUserDto.oldPassword) {
-      // console.log(user, updateUserDto);
       throw new ForbiddenException();
     }
     user.updatedAt = new Date().getTime();
@@ -52,11 +48,9 @@ export class UserService {
     dataBase.updateUserByID(id, user);
     delete user.password;
     return user;
-    //return `This action updates a #${id} user`;
   }
 
   remove(id: UUID) {
     return dataBase.delUserByID(id);
-    // return `This action removes a #${id} user`;
   }
 }
